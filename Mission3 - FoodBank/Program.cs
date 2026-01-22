@@ -3,12 +3,14 @@ using System.Collections.Generic;
 
 class Program
 {
+    // Global inventory list shared by all methods
     static List<FoodItem> inventory = new List<FoodItem>();
 
     static void Main(string[] args)
     {
-        bool running = true;
+        bool running = true;  // Controls menu loop
 
+        // Main menu loop
         while (running)
         {
             Console.WriteLine("\n=== Food Bank Inventory System ===");
@@ -18,21 +20,22 @@ class Program
             Console.WriteLine("4. Exit Program");
             Console.Write("Enter your choice (1-4): ");
 
-            string choice = Console.ReadLine();
+            string choice = Console.ReadLine();  // Read menu choice
 
+            // Handle user choice
             switch (choice)
             {
                 case "1":
-                    AddItem();
+                    AddItem();     // Add new item
                     break;
                 case "2":
-                    DeleteItem();
+                    DeleteItem();  // Remove existing item
                     break;
                 case "3":
-                    PrintItems();
+                    PrintItems();  // Show all items
                     break;
                 case "4":
-                    running = false;
+                    running = false;  // End loop and exit
                     Console.WriteLine("Exiting program. Goodbye!");
                     break;
                 default:
@@ -42,6 +45,7 @@ class Program
         }
     }
 
+    // Ask user for item info and add to inventory
     static void AddItem()
     {
         Console.Write("Enter food name: ");
@@ -52,6 +56,8 @@ class Program
 
         int quantity = 0;
         bool validQuantity = false;
+
+        // Validate quantity input
         while (!validQuantity)
         {
             Console.Write("Enter quantity: ");
@@ -69,6 +75,8 @@ class Program
 
         DateTime expirationDate = DateTime.MinValue;
         bool validDate = false;
+
+        // Validate expiration date input
         while (!validDate)
         {
             Console.Write("Enter expiration date (MM/DD/YYYY): ");
@@ -84,20 +92,24 @@ class Program
             }
         }
 
+        // Create new FoodItem and add to inventory
         FoodItem newItem = new FoodItem(name, category, quantity, expirationDate);
         inventory.Add(newItem);
         Console.WriteLine("Food item added successfully!");
     }
 
+    // Delete an item selected by index
     static void DeleteItem()
     {
         if (inventory.Count == 0)
         {
             Console.WriteLine("No items in inventory to delete.");
-            return;
+            return;  // Exit if list is empty
         }
 
         Console.WriteLine("\nCurrent Inventory:");
+
+        // Print each item with number
         for (int i = 0; i < inventory.Count; i++)
         {
             Console.WriteLine($"{i + 1}. {inventory[i]}");
@@ -105,6 +117,8 @@ class Program
 
         int itemNumber = 0;
         bool validChoice = false;
+
+        // Validate which item to delete
         while (!validChoice)
         {
             Console.Write($"Enter the number of the item to delete (1-{inventory.Count}): ");
@@ -120,10 +134,12 @@ class Program
             }
         }
 
+        // Remove chosen item (convert 1-based to 0-based index)
         inventory.RemoveAt(itemNumber - 1);
         Console.WriteLine("Food item deleted successfully!");
     }
 
+    // Print all current items in inventory
     static void PrintItems()
     {
         if (inventory.Count == 0)
@@ -133,6 +149,7 @@ class Program
         }
 
         Console.WriteLine("\n=== Current Food Inventory ===");
+
         for (int i = 0; i < inventory.Count; i++)
         {
             Console.WriteLine($"{i + 1}. {inventory[i]}");
